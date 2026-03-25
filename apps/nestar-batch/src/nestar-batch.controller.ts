@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { NestarBatchService } from './nestar-batch.service';
-import { ConfigModule } from "@nestjs/config"; //.env ichidagilarni import qilish imkonini beruvchi package
+
 
 @Controller()
 export class NestarBatchController {
