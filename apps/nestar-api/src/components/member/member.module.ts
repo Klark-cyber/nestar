@@ -6,7 +6,7 @@ import MemberSchema from '../../schemas/Member.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{name: "Member", schema: MemberSchema}])
+    MongooseModule.forFeature([{name: "Member", schema: MemberSchema}]) //memberSchema modelni hosil qildik
   ],
   providers: [MemberResolver, MemberService]
 })
