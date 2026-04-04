@@ -15,8 +15,8 @@ import { BoardArticleModule } from './board-article/board-article.module';
     PropertyModule,
     BoardArticleModule, 
     LikeModule,
-    CommentModule, 
-    ViewModule, 
+    ViewModule,
+    CommentModule,  
     FollowModule, 
     ]
 })

@@ -13,9 +13,9 @@ import { DatabaseModule } from './database/database.module';
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: true,
-
-    }), ComponentsModule, //components moduleda member, property va h.k modullerni tashkillashtiramiz.ularni components module umumlasjtiradi.components ni esa asosiy app.modulega import qilib oldik
-        DatabaseModule], //Databasega ulanish mantigi yozilgan module.Uni alohida tashkillashtirdik sababi loyiha ishga tushganda databasega connect 1 marta amalga oshadi va yakunlanadi
+    }), 
+    ComponentsModule, //components moduleda member, property va h.k modullerni tashkillashtiramiz.ularni components module umumlasjtiradi.components ni esa asosiy app.modulega import qilib oldik
+    DatabaseModule], //Databasega ulanish mantigi yozilgan module.Uni alohida tashkillashtirdik sababi loyiha ishga tushganda databasega connect 1 marta amalga oshadi va yakunlanadi
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
