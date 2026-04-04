@@ -1,13 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {Model} from "mongoose"
+import { Member } from '../../libs/dto/member/member';
+import { MemberInput } from '../../libs/dto/member/member.input';
 
 @Injectable()
 export class MemberService {
-    constructor(@InjectModel("Member") private readonly memberModel: Model<null>){}
+    constructor(@InjectModel("Member") private readonly memberModel: Model<Member>){}
 
-    public async signup(): Promise<string> {
-        return "Signup executed";
+    public async signup(input: MemberInput): Promise<Member> {
+        //TODO: HASH password
+        //graphqlda servise modelda try catch ishlatish shart emas ammo yuzaga keladiugan errorni handle qilish uchun try/catchdan foydalkandik
+        try{
+        //TODO: Authentification via TOKEN
+        const result = await this.memberModel.create(input);
+        return result;
+        }catch(err){
+        console.log("Error, Servise.model:", err)
+        throw new BadRequestException(err);
+        }
     }
 
     public async login(): Promise<string> {

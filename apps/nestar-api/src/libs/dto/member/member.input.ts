@@ -2,7 +2,9 @@ import { Field, InputType } from "@nestjs/graphql";
 import {IsNotEmpty, IsOptional, Length} from "class-validator"
 import { MemberAuthType, MemberType } from "../../enums/member.enum";
 
-@InputType()
+// Frontend => Backend input types @InputType() orqali hosil qilinadi
+
+@InputType() 
 export class MemberInput { //kirib keladigan malumotlarni tekshirish uchun type
     @IsNotEmpty() //ushbu malumotni kiritish shart
     @Length(3, 12)

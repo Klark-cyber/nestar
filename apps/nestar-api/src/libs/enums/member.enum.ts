@@ -6,7 +6,7 @@ export enum MemberType {
   ADMIN = 'ADMIN',
 }
 
-registerEnumType(MemberType, {
+registerEnumType(MemberType, { //bu qator orqali graphql ichida istalgan yerda ushbu typedan foydalanishimiz mumkin boladi
   name: 'MemberType', 
 });
 
