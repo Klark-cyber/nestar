@@ -10,7 +10,7 @@ import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enu
 @ObjectType()
 export class Member{
     @Field(() => String) //Field bu return boladigan resultni typeni tekshirib beradi
-    _id: mongoose.ObjectId;
+    _id: mongoose.Types.ObjectId;
 
      @Field(() => MemberType)
     memberType: MemberType;
@@ -41,45 +41,45 @@ export class Member{
      @Field(() => String, {nullable: true}) 
     memberDesc?: string;
 
-    @Field(() => Int)  //Int graphqlga tegishli typing
+    @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberProperties?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberArticles?: number;
 
-    @Field(() => Int)  //Int graphqlga tegishli typing
+    @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberFollowers?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberFollowings?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberPoints?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberLikes?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberViews?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberComments?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberRank?: number;
 
-     @Field(() => Int)  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberWarnings?: number;
 
-    @Field(() => Int)  //Int graphqlga tegishli typing
+    @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
     memberBlocks?: number;
 
      @Field(() => Date, {nullable: true}) 
-    deleatedAt?: Date;
+    deletedAt?: Date;
 
     @Field(() => Date ) 
     createdAt: Date;
 
     @Field(() => Date ) 
-    updatedAt?: Date;
+    updatedAt: Date;
 }
