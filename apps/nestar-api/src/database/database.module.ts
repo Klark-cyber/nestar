@@ -14,8 +14,7 @@ import { Connection } from 'mongoose';
 export class DatabaseModule {
     constructor(@InjectConnection() private readonly connection:Connection) {
         if(connection.readyState === 1){ //mongodb connect muvafaqqiyatli bolsa yani readyState = 1 bolsa
-            console.log(`MongoDB is connected into ${process.env.NODE_ENV === "production" ? "production" : "development" } db`);
-            console.log(process.env.NODE_ENV)
+            console.log(`MongoDB is connected into ${process.env.NODE_ENV === "production" ? "production" : "development" } db`)
         } else {
             console.log(" DB is not connected!");
         }

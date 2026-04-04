@@ -7,7 +7,7 @@ export enum MemberType {
 }
 
 registerEnumType(MemberType, {
-  name: 'MemberType',
+  name: 'MemberType', 
 });
 
 export enum MemberStatus {
