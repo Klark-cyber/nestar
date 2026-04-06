@@ -18,8 +18,8 @@ export class MemberService {
         const result = await this.memberModel.create(input);
         return result;
         }catch(err){
-        console.log("Error, Servise.model:", err)
-        throw new BadRequestException(err);
+        console.log("Error, Servise.model:", err.message)
+        throw new BadRequestException(Message.USED_MEMBER_NICK_OR_PHONE);
         }
     }
 
@@ -36,7 +36,7 @@ export class MemberService {
             throw new InternalServerErrorException(Message.BLOCKED_USER); 
         }
         //TODO: compare password
-        const isMatch = memberPassword ===response.memberPassword;
+        const isMatch = memberPassword === response.memberPassword;
         if(!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD); 
     
         return response

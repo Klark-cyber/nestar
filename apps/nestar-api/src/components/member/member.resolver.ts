@@ -11,27 +11,17 @@ export class MemberResolver {
     @Mutation(() => Member) //Mutation Dekorator orqali API mantigini qurdik
     //@UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
     public async signup(@Args("input") input: MemberInput ): Promise<Member> {
-        try{
         console.log("Mutation: signup");
         console.log("input:", input);
         return this.memberService.signup(input);
-        }catch(err){
-        console.log("Error, signup:", err)
-        throw new InternalServerErrorException(err);
-        }
     }
 
     @Mutation(() => Member) 
     //@UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
     public async login(@Args("input") input: LoginInput ): Promise<Member> {
-         try{
         console.log("Mutation: signup");
         console.log("input:", input);
         return this.memberService.login(input);
-        }catch(err){
-        console.log("Error, signup:", err)
-        throw new InternalServerErrorException(err);
-        }
     }
 
     @Mutation(() => String) 
