@@ -9,7 +9,7 @@ export class MemberResolver {
     constructor(private readonly memberService: MemberService) {} //resolver ichida unga xizmat korsatadigan memberService modelni chaqirib oldik.Endi uni istalgan resolver ichida url api sifatida ishlata olamiz
 
     @Mutation(() => Member) //Mutation Dekorator orqali API mantigini qurdik
-    @UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
+    //@UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
     public async signup(@Args("input") input: MemberInput ): Promise<Member> {
         try{
         console.log("Mutation: signup");
@@ -22,7 +22,7 @@ export class MemberResolver {
     }
 
     @Mutation(() => Member) 
-    @UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
+    //@UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
     public async login(@Args("input") input: LoginInput ): Promise<Member> {
          try{
         console.log("Mutation: signup");
