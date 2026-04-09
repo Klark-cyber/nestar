@@ -16,7 +16,6 @@ export class MemberResolver {
     }
 
     @Mutation(() => Member) 
-    //@UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
     public async login(@Args("input") input: LoginInput ): Promise<Member> {
         console.log("STEP-4")
         console.log("Mutation: login");
@@ -24,6 +23,7 @@ export class MemberResolver {
         
     }
 
+    //Authentificated
     @Mutation(() => String) 
     public async updateMember(): Promise<string> {
         console.log("Mutation: updateMember");
@@ -36,4 +36,18 @@ export class MemberResolver {
         return this.memberService.getMember();
     }
     
+    /* ADMIN */
+
+    //Authorization: ADMIN
+    @Mutation(() => String)
+    public async getAllMembersByAdmin(): Promise<string> {
+        return this.memberService.getAllMembersByAdmin();
+    }
+
+    //Authorization: ADMIN
+    @Mutation(() => String) 
+    public async updateMemberbyAdmin(): Promise<string> {
+        console.log("Mutation: updateMember");
+        return this.memberService.updateMemberbyAdmin();
+    }
 }
