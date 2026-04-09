@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
 			if (!bearerToken) throw new BadRequestException(Message.TOKEN_NOT_EXIST);
 			console.log("bearerToken:", bearerToken)
 
-			const token = bearerToken.split(' ')[1], //1 indeks token 0 bosh probel
+			const token = bearerToken.split(' ')[1], //1 indeks token 0 Bearer sozi edi
 				authMember = await this.authService.verifyToken(token);
 			if (!authMember) throw new UnauthorizedException(Message.NOT_AUTHENTICATED);
 
