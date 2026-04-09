@@ -41,38 +41,38 @@ export class Member{
      @Field(() => String, {nullable: true}) 
     memberDesc?: string;
 
-    @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberProperties?: number;
+    @Field(() => Int)
+    memberProperties: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberArticles?: number;
+     @Field(() => Int)
+    memberArticles: number;
 
-    @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberFollowers?: number;
+    @Field(() => Int)
+    memberFollowers: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberFollowings?: number;
+     @Field(() => Int)
+    memberFollowings: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
+     @Field(() => Int, {nullable: true})  
     memberPoints?: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberLikes?: number;
+     @Field(() => Int)  
+    memberLikes: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberViews?: number;
+     @Field(() => Int)  
+    memberViews: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberComments?: number;
+     @Field(() => Int) 
+    memberComments: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberRank?: number;
+     @Field(() => Int)  
+    memberRank: number;
 
-     @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberWarnings?: number;
+     @Field(() => Int)  
+    memberWarnings: number;
 
-    @Field(() => Int, {nullable: true})  //Int graphqlga tegishli typing
-    memberBlocks?: number;
+    @Field(() => Int)
+    memberBlocks: number;
 
      @Field(() => Date, {nullable: true}) 
     deletedAt?: Date;
@@ -82,4 +82,7 @@ export class Member{
 
     @Field(() => Date ) 
     updatedAt: Date;
+
+    @Field(() => String, {nullable: true} ) //jwt orqali hosil bolgan tokenni responsda graphql orqali browserga yuboramiz
+    accessToken?: string;
 }

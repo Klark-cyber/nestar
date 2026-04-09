@@ -16,11 +16,11 @@ export class MemberService {
 
     public async signup(input: MemberInput): Promise<Member> {
         //TODO: HASH password
-        input.memberPassword = await this.authService.hashPassword(input.memberPassword);
-        //graphqlda servise modelda try catch ishlatish shart emas ammo yuzaga keladiugan errorni handle qilish uchun try/catchdan foydalkandik
+        input.memberPassword = await this.authService.hashPassword(input.memberPassword); //graphqlda servise modelda try catch ishlatish shart emas ammo yuzaga keladiugan errorni handle qilish uchun try/catchdan foydalkandik
         try{
         //TODO: Authentification via TOKEN
         const result = await this.memberModel.create(input);
+        result.accessToken = await this.authService.createToken(result) //jwt hosil qilamiz
         return result;
         }catch(err){
         console.log("Error, Servise.model:", err.message)
@@ -45,7 +45,7 @@ export class MemberService {
 
         const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword as string);
         if(!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD); 
-    console.log("STEP-6")
+        response.accessToken = await this.authService.createToken(response);
         return response
     } 
 
