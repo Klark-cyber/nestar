@@ -12,7 +12,7 @@ export class Member{
     @Field(() => String) //Field bu return boladigan resultni typeni tekshirib beradi
     _id: mongoose.Types.ObjectId;
 
-     @Field(() => MemberType)
+    @Field(() => MemberType)
     memberType: MemberType;
 
     @Field(() => MemberStatus)
@@ -78,7 +78,7 @@ export class Member{
     deletedAt?: Date;
 
     @Field(() => Date ) 
-    createdAt: Date;
+    createdAt: Date; 
 
     @Field(() => Date ) 
     updatedAt: Date;

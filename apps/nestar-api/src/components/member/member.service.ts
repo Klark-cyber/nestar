@@ -1,17 +1,22 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {Model} from "mongoose"
 import { Member } from '../../libs/dto/member/member';
 import { LoginInput, MemberInput } from '../../libs/dto/member/member.input';
 import { MemberStatus } from '../../libs/enums/member.enum';
 import { Message } from '../../libs/enums/common.enum';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class MemberService {
-    constructor(@InjectModel("Member") private readonly memberModel: Model<Member>){}
+    constructor(@InjectModel("Member") private readonly memberModel: Model<Member>, 
+    @Inject(forwardRef(() => AuthService)) // <--- MANA SHU QATORNI QO'SHING
+    private readonly authService: AuthService,
+    ){}
 
     public async signup(input: MemberInput): Promise<Member> {
         //TODO: HASH password
+        input.memberPassword = await this.authService.hashPassword(input.memberPassword);
         //graphqlda servise modelda try catch ishlatish shart emas ammo yuzaga keladiugan errorni handle qilish uchun try/catchdan foydalkandik
         try{
         //TODO: Authentification via TOKEN
@@ -24,6 +29,7 @@ export class MemberService {
     }
 
     public async login(input: LoginInput): Promise<Member> {
+        console.log("STEP-5")
         const {memberNick, memberPassword } = input;
         const response: Member = await this.memberModel
         .findOne({memberNick: memberNick})
@@ -36,9 +42,10 @@ export class MemberService {
             throw new InternalServerErrorException(Message.BLOCKED_USER); 
         }
         //TODO: compare password
-        const isMatch = memberPassword === response.memberPassword;
+
+        const isMatch = await this.authService.comparePasswords(input.memberPassword, response.memberPassword as string);
         if(!isMatch) throw new InternalServerErrorException(Message.WRONG_PASSWORD); 
-    
+    console.log("STEP-6")
         return response
     } 
 

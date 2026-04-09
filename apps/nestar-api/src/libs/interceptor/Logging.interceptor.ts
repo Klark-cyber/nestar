@@ -10,7 +10,7 @@ export class LoggingInterceptor implements NestInterceptor {
   public intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const recordTime = Date.now();
     const requestType = context.getType<GqlContextType>(); //response HTTP yoki GraphQl ekanligini tekshiramiz
-
+    console.log("STEP-3")
     if(requestType === 'http'){
       // Develop if needed!
     } else if(requestType === 'graphql'){
@@ -24,6 +24,7 @@ export class LoggingInterceptor implements NestInterceptor {
       /** (3) No Errors, giving Response below */
       return next.handle().pipe(
         tap((context) => { //bu yerdagi context responsedan kelayotgan context
+          console.log("STEP-7")
           const responseTime = Date.now() - recordTime;
           this.logger.log(`${this.stringify(context)} - ${responseTime}ms \n\n`, 'RESPONSE');
         }), //res vaqti va datasi chop etiladi
