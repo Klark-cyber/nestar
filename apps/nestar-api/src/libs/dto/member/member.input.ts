@@ -26,7 +26,6 @@ export class MemberInput { //kirib keladigan malumotlarni tekshirish uchun type
     
 
     @IsOptional() //bu malumot optional
-    @Length(3, 12)
     @Field(() => MemberAuthType, {nullable: true}) //nullable:true optional ekanligini anglatadi
     memberAuthType?: MemberAuthType;
     
