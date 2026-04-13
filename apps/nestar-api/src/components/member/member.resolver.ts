@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MemberService } from './member.service';
 import { InternalServerErrorException, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AgentInquiry, LoginInput, MemberInput } from '../../libs/dto/member/member.input';
+import { AgentInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { Member, Members } from '../../libs/dto/member/member';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
@@ -21,14 +21,14 @@ export class MemberResolver {
     //@UsePipes(ValidationPipe) //ushbu integratsiya orqali pipe validationning method darajasidagi qonuniyatini integratsiya qilamiz.Agar bu qatorni klassdan tashqarisiga yozsak resolver darajadagi integratsiya bolar edi
     public async signup(@Args("input") input: MemberInput ): Promise<Member> {
         console.log("Mutation: signup");
-        return this.memberService.signup(input);
+        return await this.memberService.signup(input);
     }
 
     @Mutation(() => Member) 
     public async login(@Args("input") input: LoginInput ): Promise<Member> {
         console.log("STEP-4")
         console.log("Mutation: login");
-        return await this.memberService.login(input);
+        return await await this.memberService.login(input);
         
     }
 
@@ -56,7 +56,7 @@ export class MemberResolver {
     public async updateMember(@Args("input") input: MemberUpdate, @AuthMember("_id") memberId: mongoose.ObjectId): Promise<Member> {
         console.log("Mutation: updateMember");
         delete input._id; //input ichida kelgan memberid kerak emas sababi uni @AuthMember("_id") shu orqali qolga allaqachon kiritganmiz
-        return this.memberService.updateMember(memberId, input);
+        return await this.memberService.updateMember(memberId, input);
     }
 
     @UseGuards(WithoutGuard)
@@ -64,29 +64,34 @@ export class MemberResolver {
     public async getMember(@Args("memberId") input: string, @AuthMember('_id') memberId: mongoose.ObjectId): Promise<Member> {
         console.log("Mutation: getMember");
         const targetId = shapeIntoMongoObjectId(input);
-        return this.memberService.getMember(memberId, targetId);
+        return await this.memberService.getMember(memberId, targetId);
     }
     
     @UseGuards(WithoutGuard) //agentlar royxatini butun malumotlar bilan birgalikda olib beradi
     @Query(() => Members)
     public async getAgents(@Args("input") input: AgentInquiry, @AuthMember('_id') memberId: mongoose.ObjectId): Promise<Members>{
         console.log("Query getAgents")
-        return this.memberService.getAgents(memberId, input);
+        return await this.memberService.getAgents(memberId, input);
     }
     /* ADMIN */
 
     //Authorization: ADMIN
     @Roles(MemberType.ADMIN) //ozimiz hosil qilgan customize Roles decoratorni call qilib unga Admin typeni path qildik
     @UseGuards(RolesGuard)
-    @Mutation(() => String)
-    public async getAllMembersByAdmin(): Promise<string> {
-        return this.memberService.getAllMembersByAdmin();
+    @Query(() => Members)
+    public async getAllMembersByAdmin(@Args("input") input: MembersInquiry): Promise<Members> {
+           console.log("Mutation: getAllMembersByAdmin");
+        return await this.memberService.getAllMembersByAdmin(input);
     }
 
     //Authorization: ADMIN
-    @Mutation(() => String) 
-    public async updateMemberbyAdmin(): Promise<string> {
+    @Roles(MemberType.ADMIN)
+    @UseGuards(RolesGuard)
+    @Mutation(() => Member) 
+    public async updateMemberbyAdmin(@Args("input") input: MemberUpdate): Promise<Member> {
         console.log("Mutation: updateMember");
-        return this.memberService.updateMemberbyAdmin();
+        return await this.memberService.updateMemberbyAdmin(input);
     }
+
+
 }

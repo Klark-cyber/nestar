@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from "@nestjs/graphql";
 import {IsIn, IsNotEmpty, IsOptional, Length, Min} from "class-validator"
-import { MemberAuthType, MemberType } from "../../enums/member.enum";
-import { availableAgentSorts } from "../../config";
+import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enum";
+import { availableAgentSorts, availableMemberSorts } from "../../config";
 import type { Direction } from "readline";
 
 // Frontend => Backend input types @InputType() orqali hosil qilinadi
@@ -48,7 +48,7 @@ export class LoginInput { //kirib keladigan malumotlarni tekshirish uchun type
 
 @InputType() //search paytida agentlarni nomlari orqali topish uchun
 class AIsearch {
-    @IsNotEmpty()
+    @IsOptional()
     @Field(() => String, {nullable: true})
     text?: string
 }
@@ -77,4 +77,46 @@ export class AgentInquiry{
     @IsNotEmpty()
     @Field(() => AIsearch)
     search: AIsearch;
+}
+
+
+@InputType() //search paytida agentlarni nomlari orqali topish uchun
+class MIsearch {
+    @IsOptional()
+    @Field(() => MemberType, {nullable: true}) //Agent userlarni typi boyicha sort qilishi mumkin
+    memberType?: MemberType
+
+    @IsOptional()
+    @Field(() => MemberStatus, {nullable: true})
+    memberStatus?: MemberStatus
+
+    @IsOptional()
+    @Field(() => String, {nullable: true})
+    text?: string
+}
+
+@InputType()
+export class MembersInquiry{
+    @IsNotEmpty()
+    @Min(1)
+    @Field(() => Int)
+    page: number; //pagenation uchun kerak boladi
+
+    @IsNotEmpty()
+    @Min(1)
+    @Field(() => Int)
+    limit: number;
+
+    @IsOptional()
+    @IsIn([availableMemberSorts]) //userlar agentlarni shu parametrlar boyicha sort qiladi
+    @Field(() => String, {nullable: true}) //sorting mexanizm uchun
+    sort?: string;
+
+    @IsOptional()
+    @Field(() => String, {nullable: true}) //sorting mexanizm uchun
+    direction?: Direction;
+
+    @IsNotEmpty()
+    @Field(() => MIsearch)
+    search: MIsearch;
 }
