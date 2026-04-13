@@ -3,9 +3,6 @@ import * as mongoose from "mongoose";
 import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enum";
 
 
-
-
-
 // Backend => Frontend types @ObjectType() orqali hosil qilinadi
 @ObjectType()
 export class Member{
@@ -85,4 +82,19 @@ export class Member{
 
     @Field(() => String, {nullable: true} ) //jwt orqali hosil bolgan tokenni responsda graphql orqali browserga yuboramiz
     accessToken?: string;
+}
+
+@ObjectType()
+export class TotalCounter {
+  @Field(() => Int, { nullable: true })
+  total: number;
+}
+
+@ObjectType()
+export class Members {
+  @Field(() => [Member])
+  list?: Member[];
+
+  @Field(() => [TotalCounter], {nullable: true})
+  metaCounter: TotalCounter[];
 }
