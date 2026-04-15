@@ -93,7 +93,7 @@ export class MemberService {
     public async getAgents(memberId: ObjectId, input:AgentInquiry ): Promise<Members> {
         const {text} = input.search;
         const match:T = {memberType: MemberType.AGENT, memberStatus: MemberStatus.ACTIVE};
-        const sort:T = {[input?.sort ?? "createdAt"]: input.direction ?? Direction.DESC} //sort optionalligi sababli agar kiritilmagan bolsa createdAt avtomatik tanlanadi
+        const sort:T = {[input?.sort ?? "createdAt"]: input.direction ?? Direction.DESC} //sort optionalligi sababli agar kiritilmagan bolsa createdAt avtomatik tanlanadi.sort = cretedAt: -1
         
         if(text) match.memberNick = {$regex: new RegExp(text, "i")};
         console.log("match", match)
