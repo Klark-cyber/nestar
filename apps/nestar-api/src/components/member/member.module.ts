@@ -13,6 +13,6 @@ import { ViewModule } from '../view/view.module';
     ViewModule,
   ],
   providers: [MemberResolver, MemberService],
-  exports: [MemberService], // Buni ham qo'shib qo'yish zarar qilmaydi
+  exports: [MemberService],
 })
 export class MemberModule {}
