@@ -196,6 +196,7 @@ public async getProperties(memberId: ObjectId, input: PropertiesInquiry): Promis
 
 
 // ADMIN
+
 public async getAllPropertiesByAdmin(input: AllPropertiesInquiry): Promise<Properties> {
         const { propertyStatus, propertyLocationList } = input.search;
         const match: T = {};
@@ -224,5 +225,33 @@ public async getAllPropertiesByAdmin(input: AllPropertiesInquiry): Promise<Prope
         if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         return result[0];
+    }
+
+public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
+        let { propertyStatus, soldAt, deletedAt } = input;
+        const search: T = {
+            _id: input._id,
+            propertyStatus: PropertyStatus.ACTIVE,
+        };
+
+        if (propertyStatus === PropertyStatus.SOLD) soldAt = new Date();
+        else if (propertyStatus === PropertyStatus.DELETE) deletedAt = new Date();
+
+        const result = await this.propertyModel
+            .findOneAndUpdate(search, input, {
+                new: true,
+            })
+            .exec();
+        if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+
+        if (soldAt || deletedAt) {
+            await this.memberService.memberStatsEditor({
+                _id: result.memberId,
+                targetKey: 'memberProperties',
+                modifier: -1,
+            });
+        }
+
+        return result;
     }
 }
