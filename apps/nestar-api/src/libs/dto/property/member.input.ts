@@ -1,7 +1,9 @@
 import { Field, InputType, Int } from "@nestjs/graphql";
 import {IsIn, IsInt, IsNotEmpty, IsOptional, Length, Min} from "class-validator"
 import { PropertyLocation, PropertyType } from "../../enums/property.enum";
-import { ObjectId } from "mongoose";
+import * as mongoose from "mongoose";
+import { availableOptions, availablePropertySorts } from "../../config";
+import { Direction } from "../../enums/common.enum";
 
 
 
@@ -63,11 +65,108 @@ export class PropertyInput {
   @Field(() => Boolean, { nullable: true })
   propertyRent?: boolean;
 
-  memberId?: ObjectId; //memberId frontenddan kelmaydi u yolda Authmember dekorator hosil qilib request tarkibiga qoshadi
+  memberId?: mongoose.ObjectId; //memberId frontenddan kelmaydi u yolda Authmember dekorator hosil qilib request tarkibiga qoshadi
 
   @IsOptional()
   @Field(() => Date, { nullable: true })
   constructedAt?: Date;
+}
+
+@InputType()
+export class PricesRange { //narxlar orasidagi qidiruvlar uchun
+ @Field(() => Int)
+ start: number;
+
+ @Field(() => Int)
+ end: number;
+}
+
+@InputType()
+export class SquaresRange { //kvadrat miqyosida qidiruv uchun
+ @Field(() => Int)
+ start: number;
+
+ @Field(() => Int)
+ end: number;
+}
+
+@InputType()
+export class PeriodsRange { //muddatlar miqyoida izlash
+ @Field(() => Date)
+ start: Date;
+
+ @Field(() => Date)
+ end: Date;
+}
+
+@InputType()
+class PISearch {
+    @IsOptional()
+ @Field(() => String, { nullable: true })
+ memberId?: mongoose.ObjectId;
+
+ @IsOptional()
+ @Field(() => [PropertyLocation], { nullable: true })
+ locationList?: PropertyLocation[];
+
+ @IsOptional()
+ @Field(() => [PropertyType], { nullable: true })
+ typeList?: PropertyType[];
+
+ @IsOptional()
+ @Field(() => [Int], { nullable: true })
+ roomsList?: Number[];
+
+ @IsOptional()
+ @Field(() => [Int], { nullable: true })
+ bedsList?: Number[];
+
+ @IsOptional()
+ @IsIn(availableOptions, { each: true })
+ @Field(() => [String], { nullable: true })
+ options?: string[];
+
+ @IsOptional()
+ @Field(() => PricesRange, { nullable: true })
+ pricesRange?: PricesRange;
+
+ @IsOptional()
+ @Field(() => PeriodsRange, { nullable: true })
+ periodsRange?: PeriodsRange;
+
+ @IsOptional()
+ @Field(() => SquaresRange, { nullable: true })
+ squaresRange?: SquaresRange;
+
+ @IsOptional()
+ @Field(() => String, { nullable: true })
+ text?: string;
+}
+
+@InputType()
+export class PropertiesInquiry {
+ @IsNotEmpty()
+ @Min(1)
+ @Field(() => Int)
+ page: number;
+
+ @IsNotEmpty()
+ @Min(1)
+ @Field(() => Int)
+ limit: number;
+
+ @IsOptional()
+ @IsIn(availablePropertySorts)
+ @Field(() => String, { nullable: true })
+ sort?: string;
+
+ @IsOptional()
+ @Field(() => Direction, { nullable: true })
+ direction?: Direction;
+
+ @IsNotEmpty()
+ @Field(() => PISearch)
+ search: PISearch;
 }
 
 
