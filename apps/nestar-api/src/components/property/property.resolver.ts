@@ -61,7 +61,7 @@ export class PropertyResolver {
  @Roles(MemberType.AGENT)
 @UseGuards(RolesGuard)
 @Query((returns) => Properties)
-public async getAgentProperties(
+public async getAgentProperties( //Agentni ozi oziga tegishli propertylarni korishi uchunmi?
   @Args('input') input: AgentPropertiesInquiry,
   @AuthMember('_id') memberId: mongoose.ObjectId,
 ): Promise<Properties> {

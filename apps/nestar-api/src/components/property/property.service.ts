@@ -80,8 +80,8 @@ export class PropertyService {
    propertyStatus: PropertyStatus.ACTIVE,
   };
 
-  if (propertyStatus === PropertyStatus.SOLD) soldAt = new Date();
-  else if (propertyStatus === PropertyStatus.DELETE) deletedAt = new Date();
+  if (propertyStatus === PropertyStatus.SOLD) input.soldAt = new Date();
+  else if (propertyStatus === PropertyStatus.DELETE) input.deletedAt = new Date();
 
   const result = await this.propertyModel
    .findOneAndUpdate(search, input, {
@@ -234,9 +234,10 @@ public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
             propertyStatus: PropertyStatus.ACTIVE,
         };
 
-        if (propertyStatus === PropertyStatus.SOLD) soldAt = new Date();
-        else if (propertyStatus === PropertyStatus.DELETE) deletedAt = new Date();
-
+        if (propertyStatus === PropertyStatus.SOLD) input.soldAt = new Date() ;
+        else if (propertyStatus === PropertyStatus.DELETE) input.deletedAt = new Date();
+        console.log(input.propertyStatus)
+         console.log(input.soldAt)
         const result = await this.propertyModel
             .findOneAndUpdate(search, input, {
                 new: true,
