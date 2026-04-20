@@ -103,4 +103,13 @@ public async getComments(memberId: ObjectId, input: CommentsInquiry): Promise<Co
   return result[0];
  }
 
+
+ //ADMIN
+
+ public async removeCommentByAdmin(input: ObjectId): Promise<Comment> { //comment article yokiproperty kabi muhim malumot emas shu sababli uni statusini delete ekanligini tekshirishga hojat yoq
+  const result = await this.commentModel.findByIdAndDelete(input);
+  if (!result) throw new InternalServerErrorException(Message.REMOVE_FAILED);
+  return result;
+ }
+
 }
