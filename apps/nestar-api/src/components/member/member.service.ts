@@ -89,6 +89,10 @@ export class MemberService {
 
                 }
                 //meLiked
+
+                // meLiked
+                const likeInput = { memberId: memberId, likeRefId: targetId, likeGroup: LikeGroup.MEMBER };
+                targetMember.meLiked = await this.likeService.checkLikeExistence(likeInput) as any; //targetMember ichida yangi meLiked property hosil qildik yani getMemberni ishlatayotgan user oldin shu memberga like bosgan yoki yoqligini tekshirish browserga response yuborish uchun
                 //meFollowed
             }
         return targetMember;

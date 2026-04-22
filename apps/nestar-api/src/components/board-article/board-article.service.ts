@@ -58,9 +58,11 @@ public async createBoardArticle(memberId: ObjectId, input: BoardArticleInput): P
             await this.boardArticleStatsEditor({ _id: articleId, targetKey: 'articleViews', modifier: 1 });
             targetBoardArticle.articleViews++;
         }
-        // meLiked
+       // meLiked
+    const likeInput = { memberId: memberId, likeRefId: articleId, likeGroup: LikeGroup.ARTICLE };
+    targetBoardArticle.meLiked = await this.likeService.checkLikeExistence(likeInput) as any; //targetMember ichida yangi meLiked property hosil qildik yani getMemberni ishlatayotgan user oldin shu memberga like bosgan yoki yoqligini tekshirish browserga response yuborish uchun
     }
-    targetBoardArticle.memberData = await this.memberService.getMember(null, targetBoardArticle.memberId);
+    targetBoardArticle.memberData = await this.memberService.getMember(null, targetBoardArticle.memberId) as any;
     return targetBoardArticle;
 }
 

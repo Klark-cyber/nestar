@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import * as mongoose from "mongoose";
 import { MemberAuthType, MemberStatus, MemberType } from "../../enums/member.enum";
+import { MeLiked } from "../like/like";
 
 
 // Backend => Frontend types @ObjectType() orqali hosil qilinadi
@@ -82,7 +83,12 @@ export class Member{
 
     @Field(() => String, {nullable: true} ) //jwt orqali hosil bolgan tokenni responsda graphql orqali browserga yuboramiz
     accessToken?: string;
+
+    /** from aggregation  */
+    @Field(() => [MeLiked], { nullable: true })
+    meLiked?: MeLiked[];
 }
+
 
 @ObjectType()
 export class TotalCounter {

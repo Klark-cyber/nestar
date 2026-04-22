@@ -59,9 +59,11 @@ export class PropertyService {
    }
 
    // meLiked
+    const likeInput = { memberId: memberId, likeRefId: propertyId, likeGroup: LikeGroup.PROPERTY };
+    targetProperty.meLiked = await this.likeService.checkLikeExistence(likeInput) as any; //targetMember ichida yangi meLiked property hosil qildik yani getMemberni ishlatayotgan user oldin shu memberga like bosgan yoki yoqligini tekshirish browserga response yuborish uchun
   }
 
-  targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);
+  targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId) as any;
   return targetProperty;
  }
 
