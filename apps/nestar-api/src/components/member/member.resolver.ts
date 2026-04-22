@@ -86,7 +86,7 @@ public async likeTargetMember(
   @AuthMember('_id') memberId: mongoose.ObjectId,
 ): Promise<Member> {
   console.log('Mutation: likeTargetMember');
-  const likeRefId = shapeIntoMongoObjectId(memberId)
+  const likeRefId = shapeIntoMongoObjectId(input)
   return await this.memberService.likeTargetMember(memberId, likeRefId);
 }
     /* ADMIN */
