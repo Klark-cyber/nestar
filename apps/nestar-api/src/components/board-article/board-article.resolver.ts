@@ -40,7 +40,7 @@ export class BoardArticleResolver {
 
 @UseGuards(AuthGuard)
     @Mutation(() => BoardArticle)
-    public async updateBoardArticle(
+    public async updateBoardArticle( //user ozi yozgan articleni update qiladi
         @Args('input') input: BoardArticleUpdate,
         @AuthMember('_id') memberId: mongoose.ObjectId,
     ): Promise<BoardArticle> {
