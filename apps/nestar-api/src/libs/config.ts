@@ -19,6 +19,7 @@ export const availableBoardArticleSorts = ['createdAt', 'updatedAt', 'articleLik
  // IMAGE CONFIGURATION (config.js)
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
+import { T } from "./types/common";
 
 export const validMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 export const getSerialForImage = (filename: string) => {
@@ -28,6 +29,37 @@ export const getSerialForImage = (filename: string) => {
 
 export const shapeIntoMongoObjectId = (target:any) => {
     return typeof target === "string" ? new ObjectId(target) : target;
+};
+
+export const lookupMemberLiked = (memberId: T, targetRefId: string = '$_id') => { //memberId murojaatchi idsi, targetRefId propertylar idsi.Agar lookuMemberLked coll bolganda property idsi kiritilmasa defolt skip va limit natijasida hosil bolgan propertylar idsini qabul qiladi
+    return {
+        $lookup: {
+            from: 'likes',
+            let:{ //local variaablesni hosil qildik va bu lookup process ichida tashkillashtiriladisearch mexanizmi uchun
+                localLikeRefId: targetRefId,
+                localMemberId: memberId,
+                localMyFavorite: true, //ozmoz uchun qiymat
+            },
+            pipeline: [
+                {
+                    $match: {
+                        $expr: {
+                            $and: [{$eq:["$likeRefId", "$$localLikeRefId"] }, {$eq:["$memberId", "$$localMemberId" ]}],  //. ,$eq ichiga solishtiriladigan mantiq yoziladi, $$ 2 bolishiga sabab bu local varieble.
+                        },
+                    },
+                },
+                {
+                    $project: { //projectni getProperties Properties ni return qiladi, Properties DTO esa Propertylardan iborat array qaytaradi, Property ichida esa MeLiked[] mantigi bor meLiked ichida soralgan qiymatlar: memberId, likeRefId, myFavorite: booleandir
+                        _id: 0, //idni olib bermasin.id doim defolt 1 ga teng boladi 0 yozish orqali bizga kerak emas demoqchimiz.
+                        memberId: 1, //memberId kerak uni 1 qildik.id dan boshqa barcha qiymatlar defaiult 0 boladi shu sababli uni 1 qilib tanlab oldik
+                        likeRefId: 1,
+                        myFavorite: '$$localMyFavorite',
+                    }
+                }
+            ],
+            as: "meLiked",
+ },
+    }
 };
 
 export const lookupMember = [

@@ -10,7 +10,7 @@ import { PropertyStatus } from '../../libs/enums/property.enum';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { ViewService } from '../view/view.service';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
-import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupMember, lookupMemberLiked, shapeIntoMongoObjectId } from '../../libs/config';
 import { LikeService } from '../like/like.service';
 import { LikeInput } from '../../libs/dto/like/like.input';
 import { LikeGroup } from '../../libs/enums/like.enum';
@@ -113,6 +113,7 @@ public async getProperties(memberId: ObjectId, input: PropertiesInquiry): Promis
        { $skip: (input.page - 1) * input.limit },
        { $limit: input.limit },
        // meLiked
+       lookupMemberLiked(memberId),
        ...lookupMember, //lookmember orqali member Collectiondan memberDatani qabul qilyapmiz yani ptopertyni hosil qilgan odam kimligini aniqlaymiz
        { $unwind: '$memberData' }, //[memberData] => memberData 
       ],
