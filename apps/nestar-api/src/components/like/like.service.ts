@@ -78,5 +78,5 @@ public async getFavoriteProperties(memberId:ObjectId, input: OrdenaryInquiry): P
     result.list = data[0].list.map((ele) => ele.favoriteProperty);
     console.log(result)
     return result;
-}
+} 
 }
