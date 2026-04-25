@@ -31,7 +31,7 @@ export const shapeIntoMongoObjectId = (target:any) => {
     return typeof target === "string" ? new ObjectId(target) : target;
 };
 
-export const lookupMemberLiked = (memberId: T, targetRefId: string = '$_id') => { //memberId murojaatchi idsi, targetRefId propertylar idsi.Agar lookuMemberLked coll bolganda property idsi kiritilmasa defolt skip va limit natijasida hosil bolgan propertylar idsini qabul qiladi
+export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id') => { //memberId murojaatchi idsi, targetRefId propertylar idsi.Agar lookuMemberLked coll bolganda property idsi kiritilmasa defolt skip va limit natijasida hosil bolgan propertylar idsini qabul qiladi
     return {
         $lookup: {
             from: 'likes',

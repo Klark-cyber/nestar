@@ -15,6 +15,7 @@ import { LikeGroup } from '../../libs/enums/like.enum';
 import { LikeInput } from '../../libs/dto/like/like.input';
 import { LikeService } from '../like/like.service';
 import { Follower, Following, MeFollowed } from '../../libs/dto/follow/follow';
+import { lookupAuthMemberLiked} from '../../libs/config';
 
 @Injectable()
 export class MemberService {
@@ -116,7 +117,12 @@ export class MemberService {
             {$sort: sort},
             {
                $facet: { //bir aggregate ichida bir nechta query natijalarini olish imkonini beradi
-                list: [{$skip: (input.page - 1)* input.limit}, {$limit: input.limit }], //talab etilgan agentlar royxatini olib beradi
+                list: [
+                    {$skip: (input.page - 1)* input.limit}, 
+                    {$limit: input.limit },
+                //meLiked
+                lookupAuthMemberLiked(memberId,),
+                ], //talab etilgan agentlar royxatini olib beradi
                 metaCounter: [{$count: "total"}] //agentlar umumiy sonini hisoblaymiz
                }
             }
