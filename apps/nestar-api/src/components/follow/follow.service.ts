@@ -4,7 +4,7 @@ import { Follower, Followers, Following, Followings } from '../../libs/dto/follo
 import { MemberService } from '../member/member.service';
 import { Model, ObjectId } from 'mongoose';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
+import { lookupAuthMemberFollowed, lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData } from '../../libs/config';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 import { T } from '../../libs/types/common';
 
@@ -77,6 +77,7 @@ public async getMemberFollowings(memberId: ObjectId, input: FollowInquiry): Prom
       // meLiked
       lookupAuthMemberLiked(memberId, "$followingId"), //followingId bu agentning followinglarining idsi,
       // meFollowed
+      lookupAuthMemberFollowed({followerId: memberId, followingId: '$followingId'}), //bu yerda object qilib yuborishimizga sabab lookupAuthMemberFollowed function parametr sifatida yagona inputni qabul qiladi shu sababli objectni path qildik
       lookupFollowingData,
       { $unwind: '$followingData' },
      ],
@@ -109,6 +110,7 @@ public async getMemberFollowers(memberId: ObjectId, input: FollowInquiry): Promi
        // meLiked
        lookupAuthMemberLiked(memberId, "$followerId"), //followingId bu agentning  followinglarining idsi,
        // meFollowed
+       lookupAuthMemberFollowed({followerId: memberId, followingId: '$followerId'}), //bu yerda object qilib yuborishimizga sabab lookupAuthMemberFollowed function parametr sifatida yagona inputni qabul qiladi shu sababli objectni path qildik
        lookupFollowerData,
        { $unwind: '$followerData' },
       ],

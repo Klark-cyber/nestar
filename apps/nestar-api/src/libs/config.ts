@@ -62,6 +62,43 @@ export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = '$_id')
     }
 };
 
+interface LookupAuthMemberFollowed {
+    followerId:T;
+    followingId: string; //followingId followModeldan query natijasida hosil bolgan followingId va buni objectId ga otkazmasdan togridan togri lookupAuthMemberFollowedga path qildik
+}
+
+export const lookupAuthMemberFollowed = (input: LookupAuthMemberFollowed) => { //memberId murojaatchi idsi, targetRefId propertylar idsi.Agar lookuMemberLked coll bolganda property idsi kiritilmasa defolt skip va limit natijasida hosil bolgan propertylar idsini qabul qiladi
+   const {followerId, followingId} = input;
+    return {
+        $lookup: {
+            from: 'follows',
+            let:{ //local variaablesni hosil qildik va bu lookup process ichida tashkillashtiriladisearch mexanizmi uchun
+                localFollowerId: followerId,
+                localFollowingId: followingId,
+                localMyFavorite: true, //ozmiz uchun qiymat buni qiymati MeFollowed[] ichida mavjud uning haqiqiy qiymati shu yerda belgilanadi
+            },
+            pipeline: [
+                {
+                    $match: {
+                        $expr: {
+                            $and: [{$eq:["$followerId", "$$localFollowerId"] }, {$eq:["$followingId", "$$localFollowingId" ]}],  //. ,$eq ichiga solishtiriladigan mantiq yoziladi, $$ 2 bolishiga sabab bu local varieble.
+                        },
+                    },
+                },
+                {
+                    $project: { //projectni getProperties Properties ni return qiladi, Properties DTO esa Propertylardan iborat array qaytaradi, Property ichida esa MeLiked[] mantigi bor meLiked ichida soralgan qiymatlar: memberId, likeRefId, myFavorite: booleandir
+                        _id: 0, //idni olib bermasin.id doim defolt 1 ga teng boladi 0 yozish orqali bizga kerak emas demoqchimiz.
+                        followerId: 1, //followerId kerak uni 1 qildik.id dan boshqa barcha qiymatlar defaiult 0 boladi shu sababli uni 1 qilib tanlab oldik
+                        followingId: 1,
+                        myFollowing: '$$localMyFavorite',
+                    }
+                }
+            ],
+            as: "meFollowed",
+ },
+    }
+};
+
 export const lookupMember = [
  {
   $lookup: {
