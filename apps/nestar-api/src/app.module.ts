@@ -8,6 +8,7 @@ import { AppResolver } from './app.resolver';
 import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { T } from './libs/types/common';
+import { SocketModule } from './socket/socket.module';
 @Module({
   imports: [
     ConfigModule.forRoot(), 
@@ -26,7 +27,7 @@ import { T } from './libs/types/common';
       }
     }), 
     ComponentsModule, //components moduleda member, property va h.k modullerni tashkillashtiramiz.ularni components module umumlasjtiradi.components ni esa asosiy app.modulega import qilib oldik
-    DatabaseModule], //Databasega ulanish mantigi yozilgan module.Uni alohida tashkillashtirdik sababi loyiha ishga tushganda databasega connect 1 marta amalga oshadi va yakunlanadi
+    DatabaseModule, SocketModule], //Databasega ulanish mantigi yozilgan module.Uni alohida tashkillashtirdik sababi loyiha ishga tushganda databasega connect 1 marta amalga oshadi va yakunlanadi
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })

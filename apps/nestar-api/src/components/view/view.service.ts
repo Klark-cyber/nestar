@@ -50,7 +50,7 @@ export class ViewService {
                         {$skip: (page-1)*limit},
                         {$limit: limit},
                         lookupVisit,
-                        {$unwind: "$favoriteProperty.memberData"} //favoriteProperty.memberData ni arraydan halos qilamiz
+                        {$unwind: "$visitedProperty.memberData"} //favoriteProperty.memberData ni arraydan halos qilamiz
                     ],
                     metacounter: [
                         {$count: 'total'}
