@@ -11,6 +11,6 @@ export const AuthMember = createParamDecorator((data: string, context: Execution
 
 	const member = request.body.authMember;
 
-	if (member) return data ? member?.[data] : member; //agar @AuthMember() ichiga argument qilib memberga tegishli biror nima resolver ichida kiritilsa memberga tegishli osha malumot return boladi aks holda member toliqligicha return boladi
+	if (member) return data ? member?.[data] : member; //agar: @AuthMember() ichiga argument qilib memberga tegishli biror nima resolver ichida kiritilsa memberga tegishli osha malumot return boladi aks holda member toliqligicha return boladi
 	else return null;
 });
