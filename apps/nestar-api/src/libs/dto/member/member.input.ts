@@ -54,7 +54,7 @@ class AIsearch {
 }
 
 @InputType()
-export class AgentInquiry{
+export class AgentsInquiry{
     @IsNotEmpty()
     @Min(1)
     @Field(() => Int)
@@ -66,7 +66,7 @@ export class AgentInquiry{
     limit: number;
 
     @IsOptional()
-    @IsIn([availableAgentSorts]) //userlar agentlarni shu parametrlar boyicha sort qiladi
+    @IsIn(availableAgentSorts) //userlar agentlarni shu parametrlar boyicha sort qiladi
     @Field(() => String, {nullable: true}) //sorting mexanizm uchun
     sort?: string;
 
